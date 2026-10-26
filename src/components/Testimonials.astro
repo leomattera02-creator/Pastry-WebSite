@@ -1,0 +1,50 @@
+---
+import type { SiteConfig } from '../config/types';
+
+interface Props {
+  config: SiteConfig;
+}
+
+const { config } = Astro.props;
+const { testimonials } = config;
+---
+
+<section id="recensioni" class="px-5 py-20 sm:px-8 sm:py-28" data-reveal>
+  <div class="mx-auto max-w-7xl">
+    <header class="mb-10 sm:mb-14">
+      <p class="mb-3 text-xs font-medium uppercase tracking-widest text-[var(--color-text-muted)]">
+        Dicono di noi
+      </p>
+      <h2
+        class="font-[family-name:var(--font-display)] font-semibold leading-[1.1]"
+        style="font-size: clamp(2rem, 4.5vw, 3.5rem);"
+      >
+        Le parole dei clienti
+      </h2>
+    </header>
+
+    <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      {testimonials.map((t) => (
+        <figure
+          class="flex flex-col rounded-[var(--radius-lg)] border border-[var(--color-border)] bg-[var(--color-surface)] p-6 sm:p-8"
+        >
+          <blockquote class="flex-1 text-[var(--color-text-muted)] sm:text-lg">
+            "{t.testo}"
+          </blockquote>
+          <figcaption class="mt-6 flex items-center gap-3">
+            <span
+              class="flex h-11 w-11 items-center justify-center rounded-full bg-[var(--color-bg-alt)] font-[family-name:var(--font-display)] text-lg font-medium text-[var(--color-text)]"
+              aria-hidden="true"
+            >
+              {t.nome.charAt(0)}
+            </span>
+            <span>
+              <span class="block text-sm font-medium">{t.nome}</span>
+              <span class="block text-xs text-[var(--color-text-muted)]">{t.ruolo}</span>
+            </span>
+          </figcaption>
+        </figure>
+      ))}
+    </div>
+  </div>
+</section>

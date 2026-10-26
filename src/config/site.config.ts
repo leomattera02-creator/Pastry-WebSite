@@ -1,0 +1,326 @@
+import type { SiteConfig } from './types';
+import { gallery } from './gallery';
+
+export const siteConfig: SiteConfig = {
+  brand: {
+    name: 'La Pasticceria del Borgo',
+    tagline: 'Dolci artigianali fatti con cura, ogni giorno',
+    logo: '/logo.svg',
+  },
+  vertical: 'pasticceria',
+  theme: 'atelier',
+  contact: {
+    telefono: '+39 02 1234 5678',
+    whatsapp: '+39 333 1234567',
+    email: 'ciao@lapasticceriadelborgo.it',
+    indirizzo: 'Via del Borgo 12, 20121 Milano',
+    lat: 45.4654,
+    lng: 9.1859,
+    partitaIva: 'IT01234567890',
+  },
+  hours: {
+    settimana: [
+      { giorno: 'lunedi', chiuso: true },
+      { giorno: 'martedi', chiuso: false, apertura: '08:00', chiusura: '19:30' },
+      { giorno: 'mercoledi', chiuso: false, apertura: '08:00', chiusura: '19:30' },
+      { giorno: 'giovedi', chiuso: false, apertura: '08:00', chiusura: '19:30' },
+      { giorno: 'venerdi', chiuso: false, apertura: '08:00', chiusura: '20:00' },
+      { giorno: 'sabato', chiuso: false, apertura: '08:00', chiusura: '20:00' },
+      { giorno: 'domenica', chiuso: false, apertura: '09:00', chiusura: '13:00' },
+    ],
+    chiusureStraordinarie: ['25 dicembre', '1 gennaio', '15 agosto'],
+  },
+  socials: {
+    instagram: 'https://instagram.com/lapasticceriadelborgo',
+    facebook: 'https://facebook.com/lapasticceriadelborgo',
+  },
+  hero: {
+    titolo: 'La dolcezza del Borgo, ogni giorno.',
+    sottotitolo:
+      'Pasticceria artigianale: lievitati, mignon e torte realizzate con ingredienti selezionati.',
+    ctaPrincipale: 'Scopri le nostre creazioni',
+    ctaSecondaria: 'Ordina su WhatsApp',
+    immagine: {
+      src: 'https://images.pexels.com/photos/2068019/pexels-photo-2068019.jpeg?auto=compress&cs=tinysrgb&w=1600',
+      alt: 'Vetrina di pasticceria con dolci artigianali',
+      width: 1600,
+      height: 1067,
+    },
+    layout: 'split',
+  },
+  occasions: [
+    {
+      id: 'compleanno',
+      titolo: 'Compleanno',
+      descrizione: 'Torte personalizzate per festeggiare i tuoi momenti speciali.',
+      immagine: {
+        src: 'https://images.pexels.com/photos/3859921/pexels-photo-3859921.jpeg?auto=compress&cs=tinysrgb&w=800',
+        alt: 'Torta di compleanno con candeline',
+        width: 800,
+        height: 533,
+      },
+    },
+    {
+      id: 'matrimonio',
+      titolo: 'Matrimonio',
+      descrizione: 'Torte nuziali e table sweet dedicati al vostro grande giorno.',
+      immagine: {
+        src: 'https://images.pexels.com/photos/17315403/pexels-photo-17315403.jpeg?auto=compress&cs=tinysrgb&w=800',
+        alt: 'Torta nuziale elegante con decori floreali',
+        width: 800,
+        height: 533,
+      },
+    },
+    {
+      id: 'battesimo',
+      titolo: 'Battesimo',
+      descrizione: 'Dolci delicati e torte a tema per accogliere i più piccoli.',
+      immagine: {
+        src: 'https://images.pexels.com/photos/6932339/pexels-photo-6932339.jpeg?auto=compress&cs=tinysrgb&w=800',
+        alt: 'Torta per battesimo con decoro cicogna',
+        width: 800,
+        height: 533,
+      },
+    },
+    {
+      id: 'laurea',
+      titolo: 'Laurea',
+      descrizione: 'Creazioni festive per celebrare un traguardo importante.',
+      immagine: {
+        src: 'https://images.pexels.com/photos/7723809/pexels-photo-7723809.jpeg?auto=compress&cs=tinysrgb&w=800',
+        alt: 'Dessert per laurea con tocco di festeggiamento',
+        width: 800,
+        height: 533,
+      },
+    },
+    {
+      id: 'aziendale',
+      titolo: 'Aziendale',
+      descrizione: 'Catering dolce e table sweet per eventi e convention.',
+      immagine: {
+        src: 'https://images.pexels.com/photos/35688728/pexels-photo-35688728.jpeg?auto=compress&cs=tinysrgb&w=800',
+        alt: 'Buffet dolce aziendale con torta ai frutti',
+        width: 800,
+        height: 533,
+      },
+    },
+  ],
+  categories: [
+    {
+      id: 'torte',
+      nome: 'Torte',
+      descrizione: 'Torte classiche e personalizzate per ogni occasione.',
+      immagine: {
+        src: 'https://images.pexels.com/photos/10249461/pexels-photo-10249461.jpeg?auto=compress&cs=tinysrgb&w=800',
+        alt: 'Fette di torta al cioccolato',
+        width: 800,
+        height: 533,
+      },
+    },
+    {
+      id: 'mignon',
+      nome: 'Mignon',
+      descrizione: 'Bignè, tartellette e monoporzioni.',
+      immagine: {
+        src: 'https://images.pexels.com/photos/1352295/pexels-photo-1352295.jpeg?auto=compress&cs=tinysrgb&w=800',
+        alt: 'Dolci mignon esposti in vetrina',
+        width: 800,
+        height: 533,
+      },
+    },
+    {
+      id: 'crostate',
+      nome: 'Crostate',
+      descrizione: 'Crostate di frutta e creme, classiche e stagionali.',
+      immagine: {
+        src: 'https://images.pexels.com/photos/33335365/pexels-photo-33335365.jpeg?auto=compress&cs=tinysrgb&w=800',
+        alt: 'Crostate di frutta fresca',
+        width: 800,
+        height: 533,
+      },
+    },
+  ],
+  products: [
+    {
+      id: 'millefoglie',
+      nome: 'Millefoglie',
+      descrizione: 'Pasta sfoglia e crema diplomatica, leggera e croccante.',
+      categoriaId: 'mignon',
+      prezzo: '4,50 €',
+      allergeni: ['glutine', 'uova', 'latte'],
+      immagine: {
+        src: 'https://images.pexels.com/photos/1352295/pexels-photo-1352295.jpeg?auto=compress&cs=tinysrgb&w=800',
+        alt: 'Millefoglie',
+        width: 800,
+        height: 533,
+      },
+      inEvidenza: true,
+    },
+    {
+      id: 'torta-cioccolato',
+      nome: 'Torta al cioccolato',
+      descrizione: 'Pan di Spagna, ganache al cioccolato fondente e glassa lucida.',
+      categoriaId: 'torte',
+      prezzo: '38,00 €',
+      prezzoSuPreventivo: true,
+      allergeni: ['glutine', 'uova', 'latte', 'soia'],
+      immagine: {
+        src: 'https://images.pexels.com/photos/10249461/pexels-photo-10249461.jpeg?auto=compress&cs=tinysrgb&w=800',
+        alt: 'Fetta di torta al cioccolato',
+        width: 800,
+        height: 533,
+      },
+      inEvidenza: true,
+    },
+    {
+      id: 'torta-frutta',
+      nome: 'Torta alla frutta',
+      descrizione: 'Pan di Spagna, crema chantilly e frutta fresca di stagione.',
+      categoriaId: 'torte',
+      prezzo: '42,00 €',
+      prezzoSuPreventivo: true,
+      allergeni: ['glutine', 'uova', 'latte'],
+      immagine: {
+        src: 'https://images.pexels.com/photos/33335365/pexels-photo-33335365.jpeg?auto=compress&cs=tinysrgb&w=800',
+        alt: 'Torta alla frutta fresca',
+        width: 800,
+        height: 533,
+      },
+      inEvidenza: false,
+    },
+    {
+      id: 'tartellette-frutta',
+      nome: 'Tartellette alla frutta',
+      descrizione: 'Gusci di frolla, crema pasticcera e frutta fresca.',
+      categoriaId: 'mignon',
+      prezzo: '3,80 €',
+      allergeni: ['glutine', 'uova', 'latte'],
+      immagine: {
+        src: 'https://images.pexels.com/photos/1157835/pexels-photo-1157835.jpeg?auto=compress&cs=tinysrgb&w=800',
+        alt: 'Tartellette alla frutta',
+        width: 800,
+        height: 533,
+      },
+      inEvidenza: false,
+    },
+    {
+      id: 'crostata-frutti-bosco',
+      nome: 'Crostata ai frutti di bosco',
+      descrizione: 'Frolla al burro, confettura e frutti di bosco freschi.',
+      categoriaId: 'crostate',
+      prezzo: '28,00 €',
+      allergeni: ['glutine', 'uova', 'latte'],
+      immagine: {
+        src: 'https://images.pexels.com/photos/32695950/pexels-photo-32695950.jpeg?auto=compress&cs=tinysrgb&w=800',
+        alt: 'Crostata ai frutti di bosco',
+        width: 800,
+        height: 533,
+      },
+      inEvidenza: false,
+    },
+    {
+      id: 'macarons',
+      nome: 'Macarons assortiti',
+      descrizione: 'Sei gusti diversi, colorati e delicati.',
+      categoriaId: 'mignon',
+      prezzo: '15,00 €',
+      allergeni: ['glutine', 'uova', 'latte', 'frutta_a_guscio', 'sesamo'],
+      immagine: {
+        src: 'https://images.pexels.com/photos/2014693/pexels-photo-2014693.jpeg?auto=compress&cs=tinysrgb&w=800',
+        alt: 'Macarons assortiti',
+        width: 800,
+        height: 533,
+      },
+      inEvidenza: false,
+    },
+  ],
+  gallery,
+  process: [
+    {
+      id: '1',
+      titolo: 'Selezione ingredienti',
+      descrizione: 'Materie prime fresche e di stagione, scelte ogni mattina dai migliori fornitori locali.',
+      immagine: {
+        src: 'https://images.pexels.com/photos/3983578/pexels-photo-3983578.jpeg?auto=compress&cs=tinysrgb&w=1200',
+        alt: 'Pasticcere al lavoro con sac à poche',
+        width: 1200,
+        height: 800,
+      },
+    },
+    {
+      id: '2',
+      titolo: 'Lievitazione lenta',
+      descrizione: 'Tempi lunghi e pazienza: il segreto per un impasto leggero, digeribile e profumato.',
+      immagine: {
+        src: 'https://images.pexels.com/photos/8477975/pexels-photo-8477975.jpeg?auto=compress&cs=tinysrgb&w=1200',
+        alt: 'Mani di pasticcere che decorano una torta con fragole',
+        width: 1200,
+        height: 800,
+      },
+    },
+    {
+      id: '3',
+      titolo: 'Decorazione a mano',
+      descrizione: 'Ogni dolce è unico: rifiniture, glasse e decori realizzati a mano, uno per uno.',
+      immagine: {
+        src: 'https://images.pexels.com/photos/8253115/pexels-photo-8253115.jpeg?auto=compress&cs=tinysrgb&w=1200',
+        alt: 'Vetrina di pasticceria con assortimento di dolci',
+        width: 1200,
+        height: 800,
+      },
+    },
+  ],
+  testimonials: [
+    {
+      id: '1',
+      nome: 'Giulia Rossi',
+      ruolo: 'Cliente affezionata',
+      testo: 'La torta per il mio matrimonio è stata perfetta, come sempre. Bellezza e sapore in un unico dolce.',
+    },
+    {
+      id: '2',
+      nome: 'Marco Bianchi',
+      ruolo: 'Cliente',
+      testo: 'Ordino i mignon ogni domenica. Freschi, leggeri e sempre diversi. Il meglio della zona.',
+    },
+    {
+      id: '3',
+      nome: 'Sofia Conti',
+      ruolo: 'Event planner',
+      testo: 'Per gli eventi aziendali non mi affido a nessun altro. Puntualità, qualità e presentazione impeccabili.',
+    },
+  ],
+  faq: [
+    {
+      id: '1',
+      domanda: 'Con quanto anticipo devo ordinare?',
+      risposta: 'Almeno 5 giorni per le torte personalizzate. Per mignon e dolci piccoli bastano 2-3 giorni.',
+    },
+    {
+      id: '2',
+      domanda: 'Fate consegne a domicilio?',
+      risposta: 'Sì, consegniamo in tutta la città. Il costo dipende dalla zona: chiedicelo al momento dell\'ordine.',
+    },
+    {
+      id: '3',
+      domanda: 'Avete opzioni senza glutine?',
+      risposta: 'Prepariamo una selezione di dolci senza glutine su prenotazione. Contattaci per almeno 3 giorni di anticipo.',
+    },
+    {
+      id: '4',
+      domanda: 'Posso personalizzare la torta?',
+      risposta: 'Certo! Portaci foto, colori e idee: costruiamo insieme il dolce perfetto per la tua occasione.',
+    },
+  ],
+  order: {
+    giorniMinimiAnticipo: 5,
+    templateMessaggioWhatsapp:
+      'Salve {brandName},\nvorrei un preventivo per: {prodotto}\nData evento: {data}\nNumero persone: {persone}\nGusti e stile: {gusti}\n\nNome: {nome}\nContatto: {contatto}',
+  },
+  seo: {
+    title: 'La Pasticceria del Borgo - Dolci artigianali a Milano',
+    description:
+      'Pasticceria artigianale a Milano: lievitati, mignon, torte su misura e dolci per ogni occasione.',
+    ogImage: 'https://images.pexels.com/photos/2068019/pexels-photo-2068019.jpeg?auto=compress&cs=tinysrgb&w=1200',
+  },
+};

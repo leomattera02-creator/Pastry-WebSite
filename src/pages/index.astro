@@ -1,0 +1,69 @@
+---
+import Base from '../layouts/Base.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import MobileBar from '../components/MobileBar.astro';
+import Hero from '../components/Hero.tsx';
+import Occasions from '../components/Occasions.astro';
+import Catalog from '../components/Catalog.tsx';
+import Gallery from '../components/Gallery.tsx';
+import Process from '../components/Process.tsx';
+import Testimonials from '../components/Testimonials.astro';
+import Location from '../components/Location.astro';
+import Faq from '../components/Faq.astro';
+import QuoteWizard from '../components/QuoteWizard.tsx';
+import { siteConfig } from '../config/site.config';
+
+const { hero, occasions, categories, products, gallery, order, contact, brand, process, testimonials, faq } = siteConfig;
+const occasionNames = occasions.map((o) => o.titolo);
+---
+
+<Base config={siteConfig}>
+  <Header config={siteConfig} />
+  <main>
+    <Hero
+      client:load
+      titolo={hero.titolo}
+      sottotitolo={hero.sottotitolo}
+      ctaPrincipale={hero.ctaPrincipale}
+      ctaSecondaria={hero.ctaSecondaria}
+      ctaPrincipaleHref="#ordini"
+      ctaSecondariaHref="#catalogo"
+      immagineSrc={hero.immagine.src}
+      immagineAlt={hero.immagine.alt}
+      immagineWidth={hero.immagine.width}
+      immagineHeight={hero.immagine.height}
+      layout={hero.layout}
+    />
+
+    <Occasions config={siteConfig} />
+
+    <Catalog
+      client:load
+      products={products}
+      categories={categories}
+    />
+
+    <Gallery client:load images={gallery} />
+
+    <Process client:load steps={process} />
+
+    <Testimonials config={siteConfig} />
+
+    <Location config={siteConfig} />
+
+    <Faq config={siteConfig} />
+
+    <QuoteWizard
+      client:load
+      occasions={occasionNames}
+      giorniMinimiAnticipo={order.giorniMinimiAnticipo}
+      whatsapp={contact.whatsapp}
+      email={contact.email}
+      template={order.templateMessaggioWhatsapp}
+      brandName={brand.name}
+    />
+  </main>
+  <Footer config={siteConfig} />
+  <MobileBar config={siteConfig} />
+</Base>

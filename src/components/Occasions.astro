@@ -1,0 +1,111 @@
+---
+import type { SiteConfig } from '../config/types';
+
+interface Props {
+  config: SiteConfig;
+}
+
+const { config } = Astro.props;
+const { occasions } = config;
+---
+
+<section
+  id="occasioni"
+  class="px-5 py-20 sm:px-8 sm:py-28"
+  data-reveal
+>
+  <div class="mx-auto max-w-7xl">
+    <header class="mb-10 sm:mb-14">
+      <p
+        class="mb-3 text-xs font-medium uppercase tracking-widest text-[var(--color-text-muted)]"
+      >
+        Scegli per occasione
+      </p>
+      <h2
+        class="font-[family-name:var(--font-display)] font-semibold leading-[1.1]"
+        style="font-size: clamp(2rem, 4.5vw, 3.5rem);"
+      >
+        Il dolce giusto per ogni momento
+      </h2>
+    </header>
+
+    <div class="grid gap-4 md:grid-cols-3 lg:grid-cols-5" data-occasions-desktop>
+      {occasions.map((occ) => (
+        <a
+          href={`#catalogo?occasione=${occ.id}`}
+          class="group relative block overflow-hidden rounded-[var(--radius-lg)] aspect-[4/5]"
+          data-occasion-card
+        >
+          <img
+            src={occ.immagine.src}
+            alt={occ.immagine.alt}
+            width={occ.immagine.width}
+            height={occ.immagine.height}
+            loading="lazy"
+            class="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+          />
+          <div
+            class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent transition-opacity duration-300 group-hover:from-black/85"
+          />
+          <div class="absolute inset-x-0 bottom-0 p-5">
+            <h3
+              class="font-[family-name:var(--font-display)] text-xl font-medium text-white"
+            >
+              {occ.titolo}
+            </h3>
+            <p
+              class="mt-1 max-h-0 overflow-hidden text-sm text-white/80 opacity-0 transition-all duration-300 group-hover:max-h-24 group-hover:opacity-100"
+            >
+              {occ.descrizione}
+            </p>
+          </div>
+        </a>
+      ))}
+    </div>
+
+    <div
+      class="mt-4 flex gap-4 overflow-x-auto pb-4 md:hidden snap-x snap-mandatory [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+      data-occasions-mobile
+    >
+      {occasions.map((occ) => (
+        <a
+          href={`#catalogo?occasione=${occ.id}`}
+          class="group relative block shrink-0 snap-start overflow-hidden rounded-[var(--radius-lg)]"
+          style="width: 78vw; max-width: 320px; aspect-ratio: 4/5;"
+        >
+          <img
+            src={occ.immagine.src}
+            alt={occ.immagine.alt}
+            width={occ.immagine.width}
+            height={occ.immagine.height}
+            loading="lazy"
+            class="absolute inset-0 h-full w-full object-cover"
+          />
+          <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/15 to-transparent" />
+          <div class="absolute inset-x-0 bottom-0 p-5">
+            <h3
+              class="font-[family-name:var(--font-display)] text-xl font-medium text-white"
+            >
+              {occ.titolo}
+            </h3>
+            <p class="mt-1 text-sm text-white/80">{occ.descrizione}</p>
+          </div>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  [data-occasions-mobile] {
+    display: flex;
+  }
+  @media (min-width: 768px) {
+    [data-occasions-mobile] {
+      display: none;
+    }
+    [data-occasions-desktop] {
+      display: grid;
+    }
+  }
+</style>

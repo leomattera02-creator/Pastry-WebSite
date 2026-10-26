@@ -1,0 +1,61 @@
+---
+import type { SiteConfig } from '../config/types';
+
+interface Props {
+  config: SiteConfig;
+}
+
+const { config } = Astro.props;
+const { faq } = config;
+---
+
+<section id="faq" class="px-5 py-20 sm:px-8 sm:py-28" data-reveal>
+  <div class="mx-auto max-w-3xl">
+    <header class="mb-10 sm:mb-14 text-center">
+      <p class="mb-3 text-xs font-medium uppercase tracking-widest text-[var(--color-text-muted)]">
+        Domande frequenti
+      </p>
+      <h2
+        class="font-[family-name:var(--font-display)] font-semibold leading-[1.1]"
+        style="font-size: clamp(2rem, 4.5vw, 3.5rem);"
+      >
+        Cose che ci chiedono spesso
+      </h2>
+    </header>
+
+    <div class="flex flex-col gap-3">
+      {faq.map((item) => (
+        <details
+          class="group rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-surface)] overflow-hidden"
+        >
+          <summary
+            class="flex cursor-pointer items-center justify-between gap-4 px-5 py-4 text-[var(--color-text)] font-medium list-none [&::-webkit-details-marker]:hidden"
+          >
+            <span>{item.domanda}</span>
+            <span
+              class="flex h-6 w-6 shrink-0 items-center justify-center text-[var(--color-text-muted)] transition-transform duration-300 group-open:rotate-45"
+              aria-hidden="true"
+            >
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                <line x1="8" y1="2" x2="8" y2="14" />
+                <line x1="2" y1="8" x2="14" y2="8" />
+              </svg>
+            </span>
+          </summary>
+          <div class="px-5 pb-5 text-[var(--color-text-muted)]">
+            <p class="pt-1">{item.risposta}</p>
+          </div>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  details > summary::-webkit-details-marker {
+    display: none;
+  }
+  details[open] summary {
+    border-bottom: 1px solid var(--color-border);
+  }
+</style>

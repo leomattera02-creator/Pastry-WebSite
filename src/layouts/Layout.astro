@@ -1,0 +1,55 @@
+---
+import '@fontsource-variable/fraunces';
+import '@fontsource-variable/cormorant';
+import '@fontsource-variable/archivo';
+import '@fontsource-variable/plus-jakarta-sans';
+import '@fontsource-variable/manrope';
+import '@fontsource-variable/space-grotesk';
+import '../styles/global.css';
+import { themeStyle } from '../config/themes';
+import type { SiteConfig } from '../config/types';
+
+interface Props {
+  config: SiteConfig;
+}
+
+const { config } = Astro.props;
+const themeCss = themeStyle(config.theme);
+const title = config.seo?.title ?? config.brand.name;
+const description = config.seo?.description ?? config.brand.tagline;
+---
+
+<!doctype html>
+<html lang="it">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    {config.seo?.ogImage && (
+      <meta property="og:image" content={config.seo.ogImage} />
+    )}
+    <style is:global set:html={themeCss} />
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>
+
+<style>
+  html,
+  body {
+    margin: 0;
+    width: 100%;
+    min-height: 100%;
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+</style>

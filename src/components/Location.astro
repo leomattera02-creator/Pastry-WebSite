@@ -1,0 +1,238 @@
+---
+import type { SiteConfig, DayKey } from '../config/types';
+
+interface Props {
+  config: SiteConfig;
+}
+
+const { config } = Astro.props;
+const { contact, hours } = config;
+
+const dayLabels: Record<DayKey, string> = {
+  lunedi: 'Lunedì',
+  martedi: 'Martedì',
+  mercoledi: 'Mercoledì',
+  giovedi: 'Giovedì',
+  venerdi: 'Venerdì',
+  sabato: 'Sabato',
+  domenica: 'Domenica',
+};
+
+const dayOrder: DayKey[] = [
+  'lunedi',
+  'martedi',
+  'mercoledi',
+  'giovedi',
+  'venerdi',
+  'sabato',
+  'domenica',
+];
+
+const sortedHours = dayOrder
+  .map((g) => hours.settimana.find((d) => d.giorno === g))
+  .filter(Boolean);
+
+const mapsDirections = `https://www.google.com/maps/dir/?api=1&destination=${contact.lat},${contact.lng}`;
+const mapsLink = `https://www.google.com/maps/search/?api=1&query=${contact.lat},${contact.lng}`;
+---
+
+<section id="dove-siamo" class="px-5 py-20 sm:px-8 sm:py-28" data-reveal>
+  <div class="mx-auto max-w-7xl">
+    <header class="mb-10 sm:mb-14">
+      <p class="mb-3 text-xs font-medium uppercase tracking-widest text-[var(--color-text-muted)]">
+        Vieni a trovarci
+      </p>
+      <h2
+        class="font-[family-name:var(--font-display)] font-semibold leading-[1.1]"
+        style="font-size: clamp(2rem, 4.5vw, 3.5rem);"
+      >
+        Dove siamo
+      </h2>
+    </header>
+
+    <div class="grid gap-8 lg:grid-cols-2 lg:gap-12">
+      <div class="flex flex-col gap-6">
+        <div>
+          <div
+            id="open-badge"
+            class="inline-flex items-center gap-2 rounded-[var(--radius-full)] border border-[var(--color-border)] px-4 py-2 text-sm font-medium"
+            data-open
+            data-hours={JSON.stringify(hours.settimana)}
+            data-extra={JSON.stringify(hours.chiusureStraordinarie)}
+          >
+            <span class="h-2 w-2 rounded-full bg-[var(--color-text-muted)]" id="open-dot"></span>
+            <span id="open-text">Caricamento…</span>
+          </div>
+        </div>
+
+        <div>
+          <h3 class="mb-2 text-sm font-medium uppercase tracking-wide text-[var(--color-text-muted)]">
+            Indirizzo
+          </h3>
+          <p class="text-lg">{contact.indirizzo}</p>
+          <a
+            href={mapsDirections}
+            target="_blank"
+            rel="noopener"
+            class="mt-3 inline-flex items-center gap-2 rounded-[var(--radius-full)] bg-[var(--color-accent)] px-6 py-3 text-sm font-medium text-[var(--color-accent-fg)] transition-opacity hover:opacity-90"
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+              <circle cx="12" cy="10" r="3"/>
+            </svg>
+            Indicazioni stradali
+          </a>
+        </div>
+
+        <div>
+          <h3 class="mb-3 text-sm font-medium uppercase tracking-wide text-[var(--color-text-muted)]">
+            Orari di apertura
+          </h3>
+          <ul class="flex flex-col gap-1.5">
+            {sortedHours.map((d) => (
+              <li class="flex items-center justify-between gap-4 border-b border-[var(--color-border)] py-2 last:border-0">
+                <span class="text-[var(--color-text-muted)]">{dayLabels[d!.giorno]}</span>
+                <span class="font-medium">
+                  {d!.chiuso
+                    ? 'Chiuso'
+                    : `${d!.apertura} – ${d!.chiusura}`}
+                </span>
+              </li>
+            ))}
+          </ul>
+          {hours.chiusureStraordinarie.length > 0 && (
+            <p class="mt-4 text-xs text-[var(--color-text-muted)]">
+              Chiusure straordinarie: {hours.chiusureStraordinarie.join(', ')}
+            </p>
+          )}
+        </div>
+      </div>
+
+      <div class="relative overflow-hidden rounded-[var(--radius-lg)]" style="min-height: 360px;">
+        <div
+          id="map-overlay"
+          class="absolute inset-0 cursor-pointer"
+          data-map-overlay
+          data-lat={contact.lat}
+          data-lng={contact.lng}
+          data-label={contact.indirizzo}
+          role="button"
+          tabindex="0"
+          aria-label="Clicca per visualizzare la mappa interattiva"
+        >
+          <img
+            src={`https://image.maps.googleapis.com/maps/api/staticmap?center=${contact.lat},${contact.lng}&zoom=15&size=640x480&scale=2&markers=${contact.lat},${contact.lng}`}
+            alt={`Mappa statica di ${contact.indirizzo}`}
+            width="640"
+            height="480"
+            loading="lazy"
+            class="h-full w-full object-cover"
+          />
+          <div class="absolute inset-0 flex items-center justify-center bg-black/30 transition-opacity duration-300 hover:bg-black/20">
+            <span class="rounded-[var(--radius-full)] bg-white px-5 py-2.5 text-sm font-medium text-black shadow-lg">
+              Tocca per esplorare la mappa
+            </span>
+          </div>
+        </div>
+        <div id="map-container" class="absolute inset-0 hidden"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  function updateOpenBadge() {
+    const badge = document.getElementById('open-badge');
+    const dot = document.getElementById('open-dot');
+    const text = document.getElementById('open-text');
+    if (!badge || !dot || !text) return;
+
+    const hoursData = JSON.parse(badge.getAttribute('data-hours') || '[]');
+    const extraordinary = JSON.parse(badge.getAttribute('data-extra') || '[]');
+    if (!hoursData.length) return;
+
+    const now = new Date();
+    const romeTime = new Date(now.toLocaleString('en-US', { timeZone: 'Europe/Rome' }));
+    const dayNames = ['domenica', 'lunedi', 'martedi', 'mercoledi', 'giovedi', 'venerdi', 'sabato'];
+    const today = dayNames[romeTime.getDay()];
+    const todayHours = hoursData.find((d: { giorno: string }) => d.giorno === today);
+    if (!todayHours || todayHours.chiuso) {
+      dot.style.backgroundColor = 'var(--color-error)';
+      text.textContent = 'Chiuso ora';
+      return;
+    }
+
+    const currentMinutes = romeTime.getHours() * 60 + romeTime.getMinutes();
+    const [oh, om] = todayHours.apertura.split(':').map(Number);
+    const [ch, cm] = todayHours.chiusura.split(':').map(Number);
+    const openMinutes = oh * 60 + om;
+    const closeMinutes = ch * 60 + cm;
+
+    if (currentMinutes >= openMinutes && currentMinutes < closeMinutes) {
+      dot.style.backgroundColor = 'var(--color-success)';
+      text.textContent = 'Aperto ora';
+    } else {
+      dot.style.backgroundColor = 'var(--color-error)';
+      text.textContent = 'Chiuso ora';
+    }
+  }
+
+  function initMapOverlay() {
+    const overlay = document.querySelector<HTMLElement>('[data-map-overlay]');
+    const container = document.getElementById('map-container');
+    if (!overlay || !container) return;
+
+    function loadMap() {
+      if (container.dataset.loaded === 'true') return;
+      container.dataset.loaded = 'true';
+      overlay.style.display = 'none';
+      container.classList.remove('hidden');
+
+      const lat = parseFloat(overlay.dataset.lat || '45.4654');
+      const lng = parseFloat(overlay.dataset.lng || '9.1859');
+      const label = overlay.dataset.label || '';
+
+      const link = document.createElement('link');
+      link.rel = 'stylesheet';
+      link.href = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';
+      document.head.appendChild(link);
+
+      const script = document.createElement('script');
+      script.src = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';
+      script.onload = () => {
+        const L = (window as any).L;
+        if (!L) return;
+        const map = L.map(container, {
+          center: [lat, lng],
+          zoom: 16,
+          scrollWheelZoom: false,
+        });
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          attribution: '&copy; OpenStreetMap contributors',
+        }).addTo(map);
+        L.marker([lat, lng]).addTo(map).bindPopup(label).openPopup();
+      };
+      document.head.appendChild(script);
+    }
+
+    overlay.addEventListener('click', loadMap);
+    overlay.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        loadMap();
+      }
+    });
+
+    const badge = document.getElementById('open-badge');
+    if (badge) {
+      updateOpenBadge();
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initMapOverlay);
+  } else {
+    initMapOverlay();
+  }
+  document.addEventListener('astro:page-load', initMapOverlay);
+</script>

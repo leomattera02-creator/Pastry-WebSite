@@ -1,0 +1,76 @@
+---
+import '@fontsource-variable/fraunces';
+import '@fontsource-variable/cormorant';
+import '@fontsource-variable/archivo';
+import '@fontsource-variable/plus-jakarta-sans';
+import '@fontsource-variable/manrope';
+import '@fontsource-variable/space-grotesk';
+import { ClientRouter } from 'astro:transitions';
+import '../styles/global.css';
+import { themeStyle } from '../config/themes';
+import type { SiteConfig } from '../config/types';
+
+interface Props {
+  config: SiteConfig;
+}
+
+const { config } = Astro.props;
+const themeCss = themeStyle(config.theme);
+const title = config.seo?.title ?? config.brand.name;
+const description = config.seo?.description ?? config.brand.tagline;
+const canonical = Astro.url.href;
+---
+
+<!doctype html>
+<html lang="it">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="canonical" href={canonical} />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    {config.seo?.ogImage && (
+      <meta property="og:image" content={config.seo.ogImage} />
+    )}
+    <meta name="twitter:card" content="summary_large_image" />
+    <style is:global set:html={themeCss} />
+    <ClientRouter />
+  </head>
+  <body>
+    <slot />
+    <script>
+      import '../lib/motion.ts';
+    </script>
+  </body>
+</html>
+
+<style>
+  html,
+  body {
+    margin: 0;
+    width: 100%;
+    min-height: 100%;
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  [data-reveal] {
+    opacity: 0;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    [data-reveal] {
+      opacity: 1 !important;
+      transform: none !important;
+    }
+  }
+</style>
